@@ -1,30 +1,34 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+
+[System.Serializable]
+public class NPCPathEntry
+{
+    public GameObject prefab;      // prefab vozila
+    public WaypointPath path;      // njegova putanja
+}
 
 public class NPCVehicleSpawner : MonoBehaviour
 {
-    [Header("NPC Prefabs")]
-    public GameObject[] npcPrefabs;
-
-    [Header("Path Settings")]
-    public WaypointPath defaultPath;      // Putanja kojom NPC vozila voze
+    [Header("NPC Prefabs & Paths")]
+    public List<NPCPathEntry> npcEntries = new List<NPCPathEntry>();
 
     [Header("Spawn Settings")]
     public float spawnInterval = 5f;
-    public int maxNPCs = 10;
+    public int maxNPCs = 10;          // stavi barem koliko imaš npcEntries
     public bool spawnOnStart = true;
 
     [Header("Despawn")]
-    public float npcLifetime = 30f; // 30 sekundi
+    public float npcLifetime = 30f;
 
     private int currentNPCs = 0;
-    private Transform player;
+
+    // broj aktivnih primjeraka po prefabu (0 ili 1)
+    private Dictionary<GameObject, int> activePerPrefab = new Dictionary<GameObject, int>();
 
     void Start()
     {
-        Debug.Log("NPC Spawner started! Prefabs: " + npcPrefabs.Length);
-
-        player = GameObject.FindGameObjectWithTag("Player")?.transform; // Pretpostavljaš Player tag
         if (spawnOnStart)
             StartCoroutine(SpawnRoutine());
     }
@@ -33,41 +37,97 @@ public class NPCVehicleSpawner : MonoBehaviour
     {
         while (true)
         {
+            // ne pređi maxNPCs
             if (currentNPCs < maxNPCs)
             {
-                SpawnNPCOnPath();
+                SpawnNPCWithOwnPath();
             }
+
             yield return new WaitForSeconds(spawnInterval);
         }
     }
 
-    void SpawnNPCOnPath()
+    void SpawnNPCWithOwnPath()
     {
-        if (npcPrefabs == null || npcPrefabs.Length == 0) return;
-        if (defaultPath == null || defaultPath.waypoints == null || defaultPath.waypoints.Length == 0) return;
+        if (npcEntries == null || npcEntries.Count == 0) return;
 
-        // odaberi random prefab
-        GameObject randomPrefab = npcPrefabs[Random.Range(0, npcPrefabs.Length)];
+        // 1) provjeri imamo li već jedan primjerak SVAKE vrste vozila
+        int uniqueActive = 0;
+        foreach (var entry in npcEntries)
+        {
+            if (entry.prefab == null) continue;
 
-        // SPAVN NA POČETAK PUTANJE
-        Transform startWp = defaultPath.waypoints[0];
+            int c = 0;
+            activePerPrefab.TryGetValue(entry.prefab, out c);
+            if (c > 0) uniqueActive++;
+        }
+
+        // ako već imamo sve tipove vozila u sceni, nema se što spawnati
+        if (uniqueActive >= npcEntries.Count) return;
+
+        // 2) napravi listu svih entryja koji NEMAJU aktivan primjerak
+        List<NPCPathEntry> available = new List<NPCPathEntry>();
+
+        foreach (var entry in npcEntries)
+        {
+            if (entry.prefab == null || entry.path == null || entry.path.waypoints.Length == 0)
+                continue;
+
+            int count = 0;
+            activePerPrefab.TryGetValue(entry.prefab, out count);
+
+            if (count == 0) // ovaj tip vozila nije trenutno u sceni
+            {
+                available.Add(entry);
+            }
+        }
+
+        // ako nema slobodnih (možda su neki entryji neispravno podešeni), izađi
+        if (available.Count == 0) return;
+
+        // 3) nasumično odaberi jedan od slobodnih tipova
+        NPCPathEntry selected = available[Random.Range(0, available.Count)];
+
+        Transform startWp = selected.path.waypoints[0];
         Vector3 spawnPos = startWp.position;
         Quaternion spawnRot = startWp.rotation;
 
-        GameObject npc = Instantiate(randomPrefab, spawnPos, spawnRot);
+        GameObject npc = Instantiate(selected.prefab, spawnPos, spawnRot);
 
-        // spoji path na NPC mover skriptu
         var mover = npc.GetComponent<NPCVehicleMover>();
         if (mover != null)
         {
-            mover.path = defaultPath;
-            // mover.speed = ...  // po želji možeš ovdje randomizirati brzinu
+            mover.path = selected.path;
         }
 
-        // despawn nakon npcLifetime sekundi
-        Destroy(npc, npcLifetime);
+        // zabilježi da je ovaj prefab aktivan
+        if (!activePerPrefab.ContainsKey(selected.prefab))
+            activePerPrefab[selected.prefab] = 0;
+        activePerPrefab[selected.prefab]++;
+
         currentNPCs++;
+
+        // despawn nakon lifetime-a i poništi brojače
+        StartCoroutine(DespawnAfterTime(npc, selected.prefab));
     }
 
-    public void RemoveNPC() => currentNPCs--;
+    IEnumerator DespawnAfterTime(GameObject npc, GameObject prefabKey)
+    {
+        yield return new WaitForSeconds(npcLifetime);
+
+        if (npc != null)
+            Destroy(npc);
+
+        currentNPCs = Mathf.Max(0, currentNPCs - 1);
+
+        if (activePerPrefab.ContainsKey(prefabKey))
+        {
+            activePerPrefab[prefabKey] = Mathf.Max(0, activePerPrefab[prefabKey] - 1);
+        }
+    }
+
+    public void RemoveNPC()
+    {
+        currentNPCs = Mathf.Max(0, currentNPCs - 1);
+    }
 }

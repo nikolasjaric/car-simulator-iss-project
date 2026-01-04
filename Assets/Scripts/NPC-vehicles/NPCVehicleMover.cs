@@ -2,17 +2,17 @@
 
 public class NPCVehicleMover : MonoBehaviour
 {
-    public WaypointPath path;      // referenca na putanju
-    public float speed = 10f;      // konstanta brzina
-    public bool loop = true;       // želiš li da se vraća na početak
+    public WaypointPath path;
+    public float speed = 10f;
+    public bool continueStraightAfterLast = true;
 
     private int currentIndex = 0;
+    private bool finishedPath = false;
 
     void Start()
     {
         if (path == null || path.waypoints.Length == 0) return;
 
-        // Postavi početnu poziciju na prvi waypoint
         transform.position = path.waypoints[0].position;
         currentIndex = 1; // kreće prema drugom
     }
@@ -20,36 +20,45 @@ public class NPCVehicleMover : MonoBehaviour
     void Update()
     {
         if (path == null || path.waypoints.Length == 0) return;
-        if (currentIndex >= path.waypoints.Length) return;
 
+        if (!finishedPath && currentIndex < path.waypoints.Length)
+        {
+            MoveAlongPath();
+        }
+        else if (finishedPath && continueStraightAfterLast)
+        {
+            // nastavi ravno naprijed bez ikakvih waypointa
+            transform.position += transform.forward * speed * Time.deltaTime;
+        }
+    }
+
+    void MoveAlongPath()
+    {
         Transform target = path.waypoints[currentIndex];
-        Vector3 dir = (target.position - transform.position).normalized;
+        Vector3 toTarget = target.position - transform.position;
 
-        // konstantna brzina
-        transform.position += dir * speed * Time.deltaTime;
-
-        // orijentacija auta u smjeru kretanja (po želji)
-        if (dir.sqrMagnitude > 0.0001f)
-            transform.rotation = Quaternion.LookRotation(dir);
-
-        // jesmo li stigli dovoljno blizu waypointa
-        float distance = Vector3.Distance(transform.position, target.position);
-        if (distance < 0.5f)
+        // ako smo vrlo blizu ili smo preletjeli waypoint, skoči na sljedeći
+        if (toTarget.sqrMagnitude < 0.5f * 0.5f)
         {
             currentIndex++;
 
             if (currentIndex >= path.waypoints.Length)
             {
-                if (loop)
-                {
-                    currentIndex = 0;
-                }
-                else
-                {
-                    // opcionalno: zaustavi auto ili ga uništi
-                    enabled = false;
-                }
+                // završili smo putanju – zapamti smjer zadnjeg segmenta
+                finishedPath = true;
+                // orijentiraj se prema zadnjem segmentu
+                Vector3 lastDir = (target.position - path.waypoints[currentIndex - 2].position).normalized;
+                if (lastDir.sqrMagnitude > 0.0001f)
+                    transform.rotation = Quaternion.LookRotation(lastDir);
             }
+
+            return;
         }
+
+        Vector3 dir = toTarget.normalized;
+        transform.position += dir * speed * Time.deltaTime;
+
+        if (dir.sqrMagnitude > 0.0001f)
+            transform.rotation = Quaternion.LookRotation(dir);
     }
 }
