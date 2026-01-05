@@ -62,10 +62,9 @@ public class NPCVehicleSpawner : MonoBehaviour
             if (c > 0) uniqueActive++;
         }
 
-        // ako već imamo sve tipove vozila u sceni, nema se što spawnati
         if (uniqueActive >= npcEntries.Count) return;
 
-        // 2) napravi listu svih entryja koji NEMAJU aktivan primjerak
+        // 2) lista entryja koji NEMAJU aktivan primjerak
         List<NPCPathEntry> available = new List<NPCPathEntry>();
 
         foreach (var entry in npcEntries)
@@ -76,21 +75,23 @@ public class NPCVehicleSpawner : MonoBehaviour
             int count = 0;
             activePerPrefab.TryGetValue(entry.prefab, out count);
 
-            if (count == 0) // ovaj tip vozila nije trenutno u sceni
+            if (count == 0)
             {
                 available.Add(entry);
             }
         }
 
-        // ako nema slobodnih (možda su neki entryji neispravno podešeni), izađi
         if (available.Count == 0) return;
 
         // 3) nasumično odaberi jedan od slobodnih tipova
         NPCPathEntry selected = available[Random.Range(0, available.Count)];
 
         Transform startWp = selected.path.waypoints[0];
-        Vector3 spawnPos = startWp.position;
-        Quaternion spawnRot = startWp.rotation;
+
+        // ----------- KLJUČ: koristi točno poziciju waypointa -----------
+        Vector3 spawnPos = startWp.position;      // bez dodavanja +Y
+        Quaternion spawnRot = startWp.rotation;   // orijentacija kao waypoint
+                                                  // ----------------------------------------------------------------
 
         GameObject npc = Instantiate(selected.prefab, spawnPos, spawnRot);
 
@@ -100,16 +101,15 @@ public class NPCVehicleSpawner : MonoBehaviour
             mover.path = selected.path;
         }
 
-        // zabilježi da je ovaj prefab aktivan
         if (!activePerPrefab.ContainsKey(selected.prefab))
             activePerPrefab[selected.prefab] = 0;
         activePerPrefab[selected.prefab]++;
 
         currentNPCs++;
 
-        // despawn nakon lifetime-a i poništi brojače
         StartCoroutine(DespawnAfterTime(npc, selected.prefab));
     }
+
 
     IEnumerator DespawnAfterTime(GameObject npc, GameObject prefabKey)
     {
