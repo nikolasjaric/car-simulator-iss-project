@@ -545,5 +545,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCVehicleMover
   path: {fileID: 0}
-  speed: 5
-  continueStraightAfterLast: 1
+  speed: 10
+  loop: 1
