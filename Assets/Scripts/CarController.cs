@@ -108,7 +108,7 @@ public class CarController : MonoBehaviour
     private float horizontalInput, verticalInput;
     private float currentSteerAngle, currentBrakeForce;
     private bool isBraking;
-    private Rigidbody rb;
+    private Rigidbody rb; // Reference to the car's physics body
 
     private bool useKinematicMode = false;
 
@@ -117,27 +117,34 @@ public class CarController : MonoBehaviour
     [SerializeField] private float kinematicTurnSpeed = 60f;
     [SerializeField] private LayerMask terrainMask; // Layer za teren
 
+    // Stability
     [Header("Stability")]
+    [Tooltip("Drag an empty GameObject here to change the car's weight balance")]
     [SerializeField] private Transform centerOfMass;
 
+    // Settings
     [Header("Settings")]
     [SerializeField] private float motorForce = 1500f;
     [SerializeField] private float brakeForce = 3000f;
     [SerializeField] private float maxSteerAngle = 30f;
 
-    [Header("Wheel Colliders")]
+    // Wheel Colliders
     [SerializeField] private WheelCollider frontLeftWheelCollider, frontRightWheelCollider;
     [SerializeField] private WheelCollider rearLeftWheelCollider, rearRightWheelCollider;
 
-    [Header("Wheel Transforms")]
+    // Wheels
     [SerializeField] private Transform frontLeftWheelTransform, frontRightWheelTransform;
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        
+        // This is the magic line that stops the car from flipping
         if (centerOfMass != null)
+        {
             rb.centerOfMass = centerOfMass.localPosition;
+        }
     }
 
     private void FixedUpdate()
@@ -162,7 +169,7 @@ public class CarController : MonoBehaviour
         verticalInput = 0f;
         isBraking = false;
 
-        // Keyboard
+        // Keyboard Input
         if (Keyboard.current != null)
         {
             if (Keyboard.current.aKey.isPressed) horizontalInput = -1f;
@@ -178,15 +185,12 @@ public class CarController : MonoBehaviour
             }
         }
 
-        // Gamepad
+        // Gamepad Input
         if (Gamepad.current != null)
         {
             Vector2 move = Gamepad.current.leftStick.ReadValue();
-            if (move.magnitude > 0.1f)
-            {
-                horizontalInput = move.x;
-                verticalInput = move.y;
-            }
+            horizontalInput = move.x;
+            verticalInput = move.y;
             isBraking |= Gamepad.current.rightTrigger.isPressed;
         }
     }
