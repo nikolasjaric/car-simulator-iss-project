@@ -110,6 +110,12 @@ public class CarController : MonoBehaviour
     private bool isBraking;
     private Rigidbody rb; // Reference to the car's physics body
 
+    private bool useKinematicMode = false;
+
+    [Header("Kinematic Settings")]
+    [SerializeField] private float kinematicSpeed = 10f;
+    [SerializeField] private float kinematicTurnSpeed = 60f;
+
     // Stability
     [Header("Stability")]
     [Tooltip("Drag an empty GameObject here to change the car's weight balance")]
@@ -137,15 +143,29 @@ public class CarController : MonoBehaviour
         {
             rb.centerOfMass = centerOfMass.localPosition;
         }
+
+        if(useKinematicMode)
+        {
+            rb.isKinematic = useKinematicMode;
+        }
     }
 
     private void FixedUpdate()
     {
         GetInput();
-        HandleMotor();
-        HandleSteering();
-        UpdateWheels();
+
+        if (useKinematicMode)
+        {
+            HandleKinematicMovement();
+        }
+        else
+        {
+            HandleMotor();
+            HandleSteering();
+            UpdateWheels();
+        }
     }
+
 
     private void GetInput()
     {
@@ -170,6 +190,12 @@ public class CarController : MonoBehaviour
             horizontalInput = move.x;
             verticalInput = move.y;
             isBraking |= Gamepad.current.rightTrigger.isPressed;
+        }
+        // Toggle static / dynamic mode
+        if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
+        {
+            useKinematicMode = !useKinematicMode;
+            rb.isKinematic = useKinematicMode;
         }
     }
 
@@ -211,4 +237,16 @@ public class CarController : MonoBehaviour
         wheelTransform.position = pos;
         wheelTransform.rotation = rot;
     }
+
+    private void HandleKinematicMovement()
+    {
+        // kretanje naprijed / nazad
+        Vector3 move = transform.forward * verticalInput * kinematicSpeed * Time.fixedDeltaTime;
+        transform.position += move;
+
+        // okretanje oko Y osi
+        float turn = horizontalInput * kinematicTurnSpeed * Time.fixedDeltaTime;
+        transform.Rotate(0f, turn, 0f);
+    }
+
 }
