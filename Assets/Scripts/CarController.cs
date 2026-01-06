@@ -174,7 +174,6 @@ public class CarController : MonoBehaviour
             if (Keyboard.current.tKey.wasPressedThisFrame)
             {
                 useKinematicMode = !useKinematicMode;
-                // rb ostaje non-kinematic, koristimo MovePosition da kontroliramo auto
                 Debug.Log("Kinematic Mode: " + useKinematicMode);
             }
         }
@@ -241,7 +240,6 @@ public class CarController : MonoBehaviour
         rb.MovePosition(targetPos);
         rb.MoveRotation(rb.rotation * turnRotation);
 
-        // Držanje auta na terenu
         RaycastHit hit;
         if (Physics.Raycast(rb.position + Vector3.up * 2f, Vector3.down, out hit, 10f, terrainMask))
         {
