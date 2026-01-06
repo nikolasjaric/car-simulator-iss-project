@@ -108,46 +108,36 @@ public class CarController : MonoBehaviour
     private float horizontalInput, verticalInput;
     private float currentSteerAngle, currentBrakeForce;
     private bool isBraking;
-    private Rigidbody rb; // Reference to the car's physics body
+    private Rigidbody rb;
 
     private bool useKinematicMode = false;
 
     [Header("Kinematic Settings")]
     [SerializeField] private float kinematicSpeed = 10f;
     [SerializeField] private float kinematicTurnSpeed = 60f;
+    [SerializeField] private LayerMask terrainMask; // Layer za teren
 
-    // Stability
     [Header("Stability")]
-    [Tooltip("Drag an empty GameObject here to change the car's weight balance")]
-    [SerializeField] private Transform centerOfMass; 
+    [SerializeField] private Transform centerOfMass;
 
-    // Settings
+    [Header("Settings")]
     [SerializeField] private float motorForce = 1500f;
     [SerializeField] private float brakeForce = 3000f;
     [SerializeField] private float maxSteerAngle = 30f;
 
-    // Wheel Colliders
+    [Header("Wheel Colliders")]
     [SerializeField] private WheelCollider frontLeftWheelCollider, frontRightWheelCollider;
     [SerializeField] private WheelCollider rearLeftWheelCollider, rearRightWheelCollider;
 
-    // Wheels
+    [Header("Wheel Transforms")]
     [SerializeField] private Transform frontLeftWheelTransform, frontRightWheelTransform;
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
-        // This is the magic line that stops the car from flipping
         if (centerOfMass != null)
-        {
             rb.centerOfMass = centerOfMass.localPosition;
-        }
-
-        if(useKinematicMode)
-        {
-            rb.isKinematic = useKinematicMode;
-        }
     }
 
     private void FixedUpdate()
@@ -166,14 +156,13 @@ public class CarController : MonoBehaviour
         }
     }
 
-
     private void GetInput()
     {
         horizontalInput = 0f;
         verticalInput = 0f;
         isBraking = false;
 
-        // Keyboard Input
+        // Keyboard
         if (Keyboard.current != null)
         {
             if (Keyboard.current.aKey.isPressed) horizontalInput = -1f;
@@ -181,21 +170,25 @@ public class CarController : MonoBehaviour
             if (Keyboard.current.wKey.isPressed) verticalInput = 1f;
             if (Keyboard.current.sKey.isPressed) verticalInput = -1f;
             if (Keyboard.current.spaceKey.isPressed) isBraking = true;
+
+            if (Keyboard.current.tKey.wasPressedThisFrame)
+            {
+                useKinematicMode = !useKinematicMode;
+                // rb ostaje non-kinematic, koristimo MovePosition da kontroliramo auto
+                Debug.Log("Kinematic Mode: " + useKinematicMode);
+            }
         }
 
-        // Gamepad Input
+        // Gamepad
         if (Gamepad.current != null)
         {
             Vector2 move = Gamepad.current.leftStick.ReadValue();
-            horizontalInput = move.x;
-            verticalInput = move.y;
+            if (move.magnitude > 0.1f)
+            {
+                horizontalInput = move.x;
+                verticalInput = move.y;
+            }
             isBraking |= Gamepad.current.rightTrigger.isPressed;
-        }
-        // Toggle static / dynamic mode
-        if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
-        {
-            useKinematicMode = !useKinematicMode;
-            rb.isKinematic = useKinematicMode;
         }
     }
 
@@ -240,13 +233,20 @@ public class CarController : MonoBehaviour
 
     private void HandleKinematicMovement()
     {
-        // kretanje naprijed / nazad
-        Vector3 move = transform.forward * verticalInput * kinematicSpeed * Time.fixedDeltaTime;
-        transform.position += move;
+        // Pomak naprijed/nazad i okretanje
+        Vector3 forwardMove = transform.forward * verticalInput * kinematicSpeed * Time.fixedDeltaTime;
+        Quaternion turnRotation = Quaternion.Euler(0f, horizontalInput * kinematicTurnSpeed * Time.fixedDeltaTime, 0f);
 
-        // okretanje oko Y osi
-        float turn = horizontalInput * kinematicTurnSpeed * Time.fixedDeltaTime;
-        transform.Rotate(0f, turn, 0f);
+        Vector3 targetPos = rb.position + forwardMove;
+        rb.MovePosition(targetPos);
+        rb.MoveRotation(rb.rotation * turnRotation);
+
+        // Držanje auta na terenu
+        RaycastHit hit;
+        if (Physics.Raycast(rb.position + Vector3.up * 2f, Vector3.down, out hit, 10f, terrainMask))
+        {
+            Vector3 terrainPos = hit.point;
+            rb.MovePosition(new Vector3(rb.position.x, terrainPos.y, rb.position.z));
+        }
     }
-
 }
