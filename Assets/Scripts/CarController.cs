@@ -285,6 +285,7 @@ public class CarController : MonoBehaviour
     }
     */
 
+    /*
     private void CheckInput()
 {
     // --- Gas and brake ---
@@ -348,11 +349,79 @@ public class CarController : MonoBehaviour
         brakeInput = 0f;
     }
 }
+*/  
 
+    private void CheckInput()
+    {
+        // Use GetAxis for smoother acceleration and steering (it handles W/S and A/D automatically)
+        gasInput = Input.GetAxis("Vertical");       // W = 1, S = -1
+        steeringInput = Input.GetAxis("Horizontal"); // D = 1, A = -1
 
+        // --- Engine start logic ---
+        if (Mathf.Abs(gasInput) > 0.1f && isEngineRunning == 0 && engineAudio != null)
+        {
+            StartCoroutine(engineAudio.StartEngine());
+            gearState = GearState.Running;
+        }
+
+        // Determine if we are moving forward or backward relative to where the car is facing
+        float movingDirection = Vector3.Dot(transform.forward, playerRB.linearVelocity);
+
+        // --- Improved Braking vs Reversing Logic ---
+        // If we press S while moving forward, we BRAKE.
+        // If we are almost stopped and press S, we REVERSE.
+        if (movingDirection > 0.5f && gasInput < -0.1f)
+        {
+            brakeInput = Mathf.Abs(gasInput);
+            gasInput = 0; // Don't apply motor torque while braking
+        }
+        // If we press W while moving backward, we BRAKE.
+        else if (movingDirection < -0.5f && gasInput > 0.1f)
+        {
+            brakeInput = gasInput;
+            gasInput = 0;
+        }
+        else
+        {
+            brakeInput = 0;
+        }
+
+        // --- Physics/Slip Calculations ---
+        slipAngle = Vector3.Angle(transform.forward, playerRB.linearVelocity - transform.forward);
+
+        // --- Clutch/Gear Logic ---
+        if (gearState != GearState.Changing)
+        {
+            if (gearState == GearState.Neutral)
+            {
+                clutch = 0f;
+                if (Mathf.Abs(gasInput) > 0.1f) gearState = GearState.Running;
+            }
+            else
+            {
+                clutch = Input.GetKey(KeyCode.LeftShift) ? 0f : Mathf.Lerp(clutch, 1f, Time.deltaTime * 5f);
+            }
+        }
+    }
+
+    /*
     private void ApplyMotor()
     {
         currentTorque = CalculateTorque();
+        colliders.RRWheel.motorTorque = currentTorque * gasInput;
+        colliders.RLWheel.motorTorque = currentTorque * gasInput;
+    }
+    */
+
+    private void ApplyMotor()
+    {
+        // Safety check to prevent the NullReferenceException you had earlier
+        if (colliders.RRWheel == null || colliders.RLWheel == null) return;
+
+        currentTorque = CalculateTorque();
+
+        // Apply torque to rear wheels
+        // If gasInput is negative (S), the motorTorque will be negative, making the car go backward
         colliders.RRWheel.motorTorque = currentTorque * gasInput;
         colliders.RLWheel.motorTorque = currentTorque * gasInput;
     }
@@ -401,6 +470,7 @@ public class CarController : MonoBehaviour
         return torque;
     }
 
+        /*
     private void ApplySteering()
     {
         float steeringAngle = steeringInput * steeringCurve.Evaluate(speed);
@@ -418,6 +488,48 @@ public class CarController : MonoBehaviour
         colliders.FRWheel.steerAngle = steeringAngle;
         colliders.FLWheel.steerAngle = steeringAngle;
     }
+    */
+
+    /*
+    private void ApplySteering()
+    {
+        if (colliders.FRWheel == null || colliders.FLWheel == null) return;
+
+        // steeringCurve should be set in inspector (e.g., 0 speed = 30 degrees, 100 speed = 10 degrees)
+        float steeringAngle = steeringInput * steeringCurve.Evaluate(speed);
+
+        // Apply the angle to the front wheels
+        colliders.FRWheel.steerAngle = steeringAngle;
+        colliders.FLWheel.steerAngle = steeringAngle;
+    }
+    */
+    private void ApplySteering()
+{
+    if (colliders.FRWheel == null || colliders.FLWheel == null) return;
+
+    // 1. Get the base angle from curve (ensure curve is not 0!)
+    float maxSteer = steeringCurve.Evaluate(speed);
+    
+    // 2. Simple steering calculation
+    float steeringAngle = steeringInput * maxSteer * 10f;
+    // Inside ApplySteering, ensure this isn't clamping too low
+
+    // 3. Apply only to FRONT wheels
+    colliders.FRWheel.steerAngle = steeringAngle;
+    colliders.FLWheel.steerAngle = steeringAngle;
+
+    if (playerRB.linearVelocity.magnitude > 0.1f)
+{
+    slipAngle = Vector3.Angle(transform.forward, playerRB.linearVelocity - transform.forward);
+}
+else
+{
+    slipAngle = 0f;
+}
+    
+    // Debug: Uncomment the line below to see the value in the Console
+    // Debug.Log("Steering Angle: " + steeringAngle);
+}
 
     private void ApplyBrake()
     {
