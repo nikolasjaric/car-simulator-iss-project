@@ -1149,14 +1149,14 @@ MonoBehaviour:
     RRWheel: {fileID: 651865796}
     RLWheel: {fileID: 1036623622}
   wheelParticles:
-    FRWheel: {fileID: 0}
-    FLWheel: {fileID: 0}
-    RRWheel: {fileID: 0}
-    RLWheel: {fileID: 0}
-    FRWheelTrail: {fileID: 0}
-    FLWheelTrail: {fileID: 0}
-    RRWheelTrail: {fileID: 0}
-    RLWheelTrail: {fileID: 0}
+    FRWheel: {fileID: 336881577860626726, guid: 9ca90b770552ae34cab8068592ca63e0, type: 3}
+    FLWheel: {fileID: 336881577860626726, guid: 9ca90b770552ae34cab8068592ca63e0, type: 3}
+    RRWheel: {fileID: 336881577860626726, guid: 9ca90b770552ae34cab8068592ca63e0, type: 3}
+    RLWheel: {fileID: 336881577860626726, guid: 9ca90b770552ae34cab8068592ca63e0, type: 3}
+    FRWheelTrail: {fileID: 7320582905928263012, guid: 31bd50e18b98a0f4b8aadde33f1d97c9, type: 3}
+    FLWheelTrail: {fileID: 7320582905928263012, guid: 31bd50e18b98a0f4b8aadde33f1d97c9, type: 3}
+    RRWheelTrail: {fileID: 7320582905928263012, guid: 31bd50e18b98a0f4b8aadde33f1d97c9, type: 3}
+    RLWheelTrail: {fileID: 7320582905928263012, guid: 31bd50e18b98a0f4b8aadde33f1d97c9, type: 3}
   motorPower: 100
   brakePower: 300
   maxSpeed: 50
@@ -1202,8 +1202,8 @@ MonoBehaviour:
   - 1
   - 0.8
   differentialRatio: 4
-  increaseGearRPM: 0
-  decreaseGearRPM: 0
+  increaseGearRPM: 5500
+  decreaseGearRPM: 3300
   changeGearTime: 0.5
   slipAngle: 0
   steeringCurve:
@@ -1230,8 +1230,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  smokePrefab: {fileID: 0}
-  tireTrail: {fileID: 0}
+  smokePrefab: {fileID: 336881577860626725, guid: 9ca90b770552ae34cab8068592ca63e0, type: 3}
+  tireTrail: {fileID: 544749466699133553, guid: 31bd50e18b98a0f4b8aadde33f1d97c9, type: 3}
   brakeMaterial: {fileID: 0}
   brakingColor: {r: 0, g: 0, b: 0, a: 0}
   brakeColorIntensity: 0
@@ -2834,7 +2834,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1775059148
 Transform:
   m_ObjectHideFlags: 0
@@ -2857,7 +2857,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775059147}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b16f1dfb0a2bb24ba011df132b92580, type: 3}
   m_Name: 
@@ -2901,9 +2901,9 @@ MonoBehaviour:
   maxNeedleRotation: 0
   currentGear: 0
   gearRatios: []
-  differentialRatio: 0
-  increaseGearRPM: 0
-  decreaseGearRPM: 0
+  differentialRatio: 4
+  increaseGearRPM: 5500
+  decreaseGearRPM: 3300
   changeGearTime: 0.5
   slipAngle: 0
   steeringCurve:

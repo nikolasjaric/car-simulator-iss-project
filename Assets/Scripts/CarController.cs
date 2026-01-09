@@ -426,6 +426,8 @@ public class CarController : MonoBehaviour
         colliders.RLWheel.motorTorque = currentTorque * gasInput;
     }
 
+    /*
+
     private float CalculateTorque()
     {
         float torque = 0f;
@@ -437,6 +439,58 @@ public class CarController : MonoBehaviour
         {
             if (RPM > increaseGearRPM) StartCoroutine(ChangeGear(1));
             else if (RPM < decreaseGearRPM) StartCoroutine(ChangeGear(-1));
+        }
+
+        if (isEngineRunning > 0)
+        {
+            if (clutch < 0.1f)
+            {
+                RPM = Mathf.Lerp(
+                    RPM,
+                    Mathf.Max(idleRPM, redLine * gasInput) + Random.Range(-50, 50),
+                    Time.deltaTime
+                );
+            }
+            else
+            {
+                wheelRPM = Mathf.Abs((colliders.RRWheel.rpm + colliders.RLWheel.rpm) * 0.5f)
+                           * gearRatios[currentGear]
+                           * differentialRatio;
+
+                RPM = Mathf.Lerp(RPM, Mathf.Max(idleRPM - 100, wheelRPM), Time.deltaTime * 3f);
+
+                torque =
+                    hpToRPMCurve.Evaluate(RPM / redLine) * motorPower / RPM
+                    * gearRatios[currentGear]
+                    * differentialRatio
+                    * 5252f
+                    * clutch;
+
+            }
+        }
+
+        return torque;
+    }
+
+    */
+
+    private float CalculateTorque()
+    {
+        float torque = 0f;
+
+        if (RPM < idleRPM + 200 && gasInput == 0 && currentGear == 0)
+            gearState = GearState.Neutral;
+
+        if (gearState == GearState.Running && clutch > 0f)
+        {
+            if (RPM > increaseGearRPM)
+            {
+                StartCoroutine(ChangeGear(1));
+            }
+            else if (RPM < decreaseGearRPM && 1 <= currentGear)
+            {
+                StartCoroutine(ChangeGear(-1));
+            }
         }
 
         if (isEngineRunning > 0)
