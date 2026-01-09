@@ -117,7 +117,7 @@ public class CarController : MonoBehaviour
 
     // Settings
     [SerializeField] private float motorForce = 1500f;
-    [SerializeField] private float brakeForce = 3000f;
+    [SerializeField] private float brakeForce = 6000f;
     [SerializeField] private float maxSteerAngle = 30f;
 
     // Wheel Colliders
@@ -158,7 +158,7 @@ public class CarController : MonoBehaviour
         {
             if (Keyboard.current.aKey.isPressed) horizontalInput = -1f;
             if (Keyboard.current.dKey.isPressed) horizontalInput = 1f;
-            if (Keyboard.current.wKey.isPressed) verticalInput = 1f;
+            if (Keyboard.current.wKey.isPressed) verticalInput = 5f;
             if (Keyboard.current.sKey.isPressed) verticalInput = -1f;
             if (Keyboard.current.spaceKey.isPressed) isBraking = true;
         }
