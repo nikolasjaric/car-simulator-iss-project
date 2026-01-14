@@ -962,6 +962,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646981259178978, guid: 0ae65270c30153049ab49eb3ebf070d6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 784308459}
+    - targetCorrespondingSourceObject: {fileID: 1646981259178978, guid: 0ae65270c30153049ab49eb3ebf070d6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 784308460}
+    - targetCorrespondingSourceObject: {fileID: 1646981259178978, guid: 0ae65270c30153049ab49eb3ebf070d6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 784308461}
   m_SourcePrefab: {fileID: 100100000, guid: 0ae65270c30153049ab49eb3ebf070d6, type: 3}
 --- !u!1 &784308448 stripped
 GameObject:
@@ -1157,19 +1163,15 @@ MonoBehaviour:
     FLWheelTrail: {fileID: 7320582905928263012, guid: 31bd50e18b98a0f4b8aadde33f1d97c9, type: 3}
     RRWheelTrail: {fileID: 7320582905928263012, guid: 31bd50e18b98a0f4b8aadde33f1d97c9, type: 3}
     RLWheelTrail: {fileID: 7320582905928263012, guid: 31bd50e18b98a0f4b8aadde33f1d97c9, type: 3}
-  isManualMode: 0
-  isReverse: 0
-  revLimit: 7500
-  reverseGearRatio: 3.4
   motorPower: 50
   brakePower: 300
-  maxSpeed: 130
+  maxSpeed: 0
   hpToRPMCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.0022697449
-      value: 0.9987831
+      time: 0.037757874
+      value: 0.50554276
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1177,8 +1179,17 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.97010803
-      value: 0.5022354
+      time: 0.15093502
+      value: 0.52542657
+      inSlope: 0.7097059
+      outSlope: 0.7097059
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.09457047
+    - serializedVersion: 3
+      time: 0.96687317
+      value: 0.99170685
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1211,7 +1222,7 @@ MonoBehaviour:
   increaseGearRPM: 5500
   decreaseGearRPM: 3300
   changeGearTime: 0.5
-  slipAngle: 0
+  slipAngle: 30
   steeringCurve:
     serializedVersion: 2
     m_Curve:
@@ -1238,9 +1249,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   smokePrefab: {fileID: 336881577860626725, guid: 9ca90b770552ae34cab8068592ca63e0, type: 3}
   tireTrail: {fileID: 544749466699133553, guid: 31bd50e18b98a0f4b8aadde33f1d97c9, type: 3}
-  brakeMaterial: {fileID: 2100000, guid: 6d010513de650774997a4eb297decf18, type: 2}
+  brakeMaterial: {fileID: 0}
   brakingColor: {r: 0, g: 0, b: 0, a: 0}
-  brakeColorIntensity: 5
+  brakeColorIntensity: 0
 --- !u!114 &784308458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1281,6 +1292,46 @@ MonoBehaviour:
   limiterFrequency: 3
   limiterEngage: 0.8
   isEngineRunning: 0
+--- !u!114 &784308460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784308448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cac2d3dfa57e3e46a119aebc2e49e5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GearModeSwitcher
+  automaticController: {fileID: 784308457}
+  manualController: {fileID: 784308461}
+--- !u!114 &784308461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784308448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c4b2dc355b03b548a5ba5c57cf234dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ManualCarController
+  torqueCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxRPM: 7000
+  idleRPM: 1000
+  engineRPM: 0
+  gearRatios: []
+  finalDriveRatio: 3.4
+  currentGear: 1
+  clutchInput: 0
+  driveWheels: []
 --- !u!1 &832525432
 GameObject:
   m_ObjectHideFlags: 0
@@ -3024,10 +3075,6 @@ MonoBehaviour:
     FLWheelTrail: {fileID: 0}
     RRWheelTrail: {fileID: 0}
     RLWheelTrail: {fileID: 0}
-  isManualMode: 0
-  isReverse: 0
-  revLimit: 7500
-  reverseGearRatio: 3.4
   motorPower: 0
   brakePower: 0
   maxSpeed: 0
