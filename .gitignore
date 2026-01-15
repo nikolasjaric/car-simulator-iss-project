@@ -100,5 +100,6 @@ InitTestScene*.unity*
 
 # Unity generated lighting (do not commit)
 **/LightingData.asset
+**/LightingData.asset.meta
 **/ReflectionProbe-*.exr
 **/ReflectionProbe-*.exr.meta
