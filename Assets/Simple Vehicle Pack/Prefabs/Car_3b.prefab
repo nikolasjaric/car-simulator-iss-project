@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1082330992245098}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.38610077, y: 0.15308, z: 0.7893189}
+  m_LocalPosition: {x: -0.38610077, y: 0.15307999, z: 0.7893189}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -333,7 +333,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1bd95aa98459e6c4abdbfc33bdff9745, type: 2}
+  - {fileID: 2100000, guid: 81f16150fbb65e943badcba9afa96d41, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -383,7 +383,7 @@ Transform:
   m_GameObject: {fileID: 1616890662523094}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.39543304, y: 0.15307999, z: -0.6351894}
+  m_LocalPosition: {x: 0.39543304, y: 0.15308, z: -0.6351894}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -454,11 +454,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4870167790249810}
-  - component: {fileID: 961797600266518248}
-  - component: {fileID: 8184947382548981225}
-  - component: {fileID: 5395794175736970138}
+  - component: {fileID: 2517343500228085914}
+  - component: {fileID: 7544365310845362287}
+  - component: {fileID: 7315870468935129638}
   m_Layer: 0
-  m_Name: Car_4
+  m_Name: Car_3b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -474,7 +474,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.9, y: 1.9, z: 1.9}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4942120795113776}
@@ -484,7 +484,7 @@ Transform:
   - {fileID: 4907551743973842}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &961797600266518248
+--- !u!54 &2517343500228085914
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -511,7 +511,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &8184947382548981225
+--- !u!65 &7544365310845362287
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -532,7 +532,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.85, z: 2.5}
   m_Center: {x: 0, y: 0.4, z: 0}
---- !u!114 &5395794175736970138
+--- !u!114 &7315870468935129638
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -547,3 +547,5 @@ MonoBehaviour:
   path: {fileID: 0}
   speed: 10
   continueStraightAfterLast: 1
+  Spawner: {fileID: 0}
+  PrefabKey: {fileID: 0}

@@ -369,7 +369,7 @@ GameObject:
   - component: {fileID: 8135700054032212494}
   - component: {fileID: -7952728719269342243}
   m_Layer: 0
-  m_Name: Taxi
+  m_Name: Taxi_b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
