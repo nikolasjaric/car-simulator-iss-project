@@ -116,8 +116,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform centerOfMass; 
 
     // Settings
-    [SerializeField] private float motorForce = 1500f;
-    [SerializeField] private float brakeForce = 3000f;
+    [SerializeField] private float motorForce = 50000f;
+    [SerializeField] private float brakeForce = 10000f;
     [SerializeField] private float maxSteerAngle = 30f;
 
     // Wheel Colliders
