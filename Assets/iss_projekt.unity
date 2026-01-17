@@ -47455,8 +47455,8 @@ MonoBehaviour:
     FLWheelTrail: {fileID: 7320582905928263012, guid: 31bd50e18b98a0f4b8aadde33f1d97c9, type: 3}
     RRWheelTrail: {fileID: 7320582905928263012, guid: 31bd50e18b98a0f4b8aadde33f1d97c9, type: 3}
     RLWheelTrail: {fileID: 7320582905928263012, guid: 31bd50e18b98a0f4b8aadde33f1d97c9, type: 3}
-  motorPower: 50
-  brakePower: 300
+  motorPower: 120
+  brakePower: 600
   maxSpeed: 0
   hpToRPMCurve:
     serializedVersion: 2
@@ -47674,6 +47674,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4870167790249810, guid: 0ae65270c30153049ab49eb3ebf070d6, type: 3}
   m_PrefabInstance: {fileID: 1527085270}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1207881501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207881487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 727e095c4b2db244eac37383a56ffbbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VehicleReplay
+  vehicleTransform: {fileID: 0}
 --- !u!1001 &1207890700
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48974,6 +48987,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 4c3178e7d9864a349a71f8e4bc19a179, type: 3}
   m_PrefabInstance: {fileID: 1544413099}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1245394921
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1245394923}
+  - component: {fileID: 1245394922}
+  m_Layer: 0
+  m_Name: LaraManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1245394922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245394921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d460ba9fdf4bc498869afb9ca77c2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReplayManager
+  vehicles:
+  - vehicleTransform: {fileID: 1207881500}
+    positions: []
+    rotations: []
+  recordInterval: 0.02
+--- !u!4 &1245394923
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245394921}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1246977719 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 4c3178e7d9864a349a71f8e4bc19a179, type: 3}
@@ -58822,6 +58884,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646981259178978, guid: 0ae65270c30153049ab49eb3ebf070d6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1207881488}
+    - targetCorrespondingSourceObject: {fileID: 1646981259178978, guid: 0ae65270c30153049ab49eb3ebf070d6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1207881501}
   m_SourcePrefab: {fileID: 100100000, guid: 0ae65270c30153049ab49eb3ebf070d6, type: 3}
 --- !u!4 &1528385477 stripped
 Transform:
@@ -80751,3 +80816,4 @@ SceneRoots:
   - {fileID: 485748938}
   - {fileID: 1854889734}
   - {fileID: 416917694}
+  - {fileID: 1245394923}
