@@ -255,12 +255,10 @@ private void CheckWheelParticle(
         // --- Physics/Slip Calculations ---
         slipAngle = Vector3.Angle(transform.forward, playerRB.linearVelocity - transform.forward);
 
-<<<<<<< HEAD
-    // Settings
-    [SerializeField] private float motorForce = 50000f;
-    [SerializeField] private float brakeForce = 10000f;
-    [SerializeField] private float maxSteerAngle = 30f;
-=======
+        // Settings
+        //[SerializeField] private float motorForce = 50000f;
+        //[SerializeField] private float brakeForce = 10000f;
+        //[SerializeField] private float maxSteerAngle = 30f;
         // --- Clutch/Gear Logic ---
         if (gearState != GearState.Changing)
         {
@@ -275,7 +273,6 @@ private void CheckWheelParticle(
             }
         }
     }
->>>>>>> feature/gear-shifting
 
 
     private void ApplyMotor()
