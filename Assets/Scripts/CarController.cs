@@ -1,10 +1,11 @@
-// prije insertanja manual modea a s poboljsanim RPMom
+﻿// prije insertanja manual modea a s poboljsanim RPMom
 
 
 
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 
 public enum GearState
@@ -26,6 +27,11 @@ public class CarController : MonoBehaviour
     [SerializeField] private WheelColliders colliders;
     [SerializeField] private WheelMeshes wheelMeshes;
     [SerializeField] private WheelParticles wheelParticles;
+
+    [Header("Crash Effect")]
+    [SerializeField] private Image crashOverlay;
+    [SerializeField] private float crashForceThreshold = 200f;
+    [SerializeField] private float crashFadeDuration = 0.5f;
 
     [Header("Input")]
     private float gasInput;
@@ -148,8 +154,14 @@ private void CheckWheelParticle(
 
     private void Start()
     {
-        //InitiateParticles();
+
+        if (crashOverlay != null)
+        {
+            crashOverlay.gameObject.SetActive(false);
+            crashOverlay.color = new Color(1f, 0f, 0f, 0f);
+        }
     }
+
 
     private void Update()
     {
@@ -477,6 +489,47 @@ else
         currentGear = Mathf.Clamp(currentGear + direction, 0, gearRatios.Length - 1);
         gearState = GearState.Running;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        float impactForce = collision.relativeVelocity.magnitude * playerRB.mass;
+        Debug.Log($"Sudar! Snaga: {impactForce}"); // Provjeri u Console
+        if (impactForce > crashForceThreshold)
+        {
+            ShowCrashEffect();
+        }
+    }
+
+    private void ShowCrashEffect()
+    {
+        if (crashOverlay == null) return;
+        crashOverlay.gameObject.SetActive(true);
+        crashOverlay.color = new Color(1f, 0f, 0f, 0f);
+        StartCoroutine(FadeCrashOverlay(0f, 0.8f, crashFadeDuration / 2));
+        StartCoroutine(DelayedFadeOut());
+    }
+
+    private System.Collections.IEnumerator FadeCrashOverlay(float startAlpha, float endAlpha, float duration)
+    {
+        float elapsed = 0f;
+        Color color = crashOverlay.color;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            color.a = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
+            crashOverlay.color = color;
+            yield return null;
+        }
+        crashOverlay.color = color;
+    }
+
+    private System.Collections.IEnumerator DelayedFadeOut()
+    {
+        yield return new WaitForSeconds(0.2f);
+        yield return StartCoroutine(FadeCrashOverlay(0.8f, 0f, crashFadeDuration / 2));
+        crashOverlay.gameObject.SetActive(false);
+    }
+
 }
 
 [System.Serializable]

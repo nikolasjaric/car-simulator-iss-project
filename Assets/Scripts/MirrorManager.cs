@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class MirrorManager : MonoBehaviour
@@ -44,16 +44,16 @@ public class MirrorManager : MonoBehaviour
     }
 
     void UpdateMirrorVisibility()
-{
-    bool showMirrors = firstPersonCamera != null && firstPersonCamera.enabled;
-
-    if (mirrorUIInstance != null)
     {
-        mirrorUIInstance.SetActive(showMirrors);
-    }
+        bool showMirrors = firstPersonCamera != null && firstPersonCamera.enabled;
 
-    if (leftMirrorCamera != null) leftMirrorCamera.enabled = showMirrors;
-    if (centerMirrorCamera != null) centerMirrorCamera.enabled = showMirrors;
-    if (rightMirrorCamera != null) rightMirrorCamera.enabled = showMirrors;
-}
+        if (mirrorUIInstance != null)
+        {
+            mirrorUIInstance.SetActive(showMirrors);
+        }
+
+        if (leftMirrorCamera != null) leftMirrorCamera.enabled = showMirrors;
+        if (centerMirrorCamera != null) centerMirrorCamera.enabled = showMirrors;
+        if (rightMirrorCamera != null) rightMirrorCamera.enabled = showMirrors;
+    }
 }

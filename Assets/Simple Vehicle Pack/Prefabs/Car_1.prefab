@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 3486558011490144993}
   m_Layer: 0
   m_Name: Car_1
-  m_TagString: Untagged
+  m_TagString: Vehicle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -336,18 +336,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b16f1dfb0a2bb24ba011df132b92580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarController
-  centerOfMass: {fileID: 0}
-  motorForce: 1500
-  brakeForce: 3000
-  maxSteerAngle: 30
-  frontLeftWheelCollider: {fileID: 0}
-  frontRightWheelCollider: {fileID: 0}
-  rearLeftWheelCollider: {fileID: 0}
-  rearRightWheelCollider: {fileID: 0}
-  frontLeftWheelTransform: {fileID: 0}
-  frontRightWheelTransform: {fileID: 0}
-  rearLeftWheelTransform: {fileID: 0}
-  rearRightWheelTransform: {fileID: 0}
+  colliders:
+    FRWheel: {fileID: 0}
+    FLWheel: {fileID: 0}
+    RRWheel: {fileID: 0}
+    RLWheel: {fileID: 0}
+  wheelMeshes:
+    FRWheel: {fileID: 0}
+    FLWheel: {fileID: 0}
+    RRWheel: {fileID: 0}
+    RLWheel: {fileID: 0}
+  wheelParticles:
+    FRWheel: {fileID: 0}
+    FLWheel: {fileID: 0}
+    RRWheel: {fileID: 0}
+    RLWheel: {fileID: 0}
+    FRWheelTrail: {fileID: 0}
+    FLWheelTrail: {fileID: 0}
+    RRWheelTrail: {fileID: 0}
+    RLWheelTrail: {fileID: 0}
+  crashOverlay: {fileID: 0}
+  crashForceThreshold: 200
+  crashFadeDuration: 0.5
+  motorPower: 0
+  brakePower: 0
+  maxSpeed: 0
+  hpToRPMCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  engineInertia: 10000
+  isEngineRunning: 0
+  RPM: 0
+  redLine: 0
+  idleRPM: 0
+  speedText: {fileID: 0}
+  rpmText: {fileID: 0}
+  gearText: {fileID: 0}
+  rpmNeedle: {fileID: 0}
+  minNeedleRotation: 0
+  maxNeedleRotation: 0
+  currentGear: 0
+  gearRatios: []
+  differentialRatio: 0
+  increaseGearRPM: 0
+  decreaseGearRPM: 0
+  changeGearTime: 0.5
+  slipAngle: 0
+  steeringCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  smokePrefab: {fileID: 0}
+  tireTrail: {fileID: 0}
+  brakeMaterial: {fileID: 0}
+  brakingColor: {r: 0, g: 0, b: 0, a: 0}
+  brakeColorIntensity: 0
 --- !u!114 &3486558011490144993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -915,18 +963,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b16f1dfb0a2bb24ba011df132b92580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarController
-  centerOfMass: {fileID: 0}
-  motorForce: 1000
-  brakeForce: 3000
-  maxSteerAngle: 30
-  frontLeftWheelCollider: {fileID: 6954443922897614729}
-  frontRightWheelCollider: {fileID: 828609655799321446}
-  rearLeftWheelCollider: {fileID: 6048585116431742452}
-  rearRightWheelCollider: {fileID: 7902881763300899515}
-  frontLeftWheelTransform: {fileID: 4451881958030448}
-  frontRightWheelTransform: {fileID: 4056998221344212}
-  rearLeftWheelTransform: {fileID: 4700048429678634}
-  rearRightWheelTransform: {fileID: 4026899674362240}
+  colliders:
+    FRWheel: {fileID: 0}
+    FLWheel: {fileID: 0}
+    RRWheel: {fileID: 0}
+    RLWheel: {fileID: 0}
+  wheelMeshes:
+    FRWheel: {fileID: 0}
+    FLWheel: {fileID: 0}
+    RRWheel: {fileID: 0}
+    RLWheel: {fileID: 0}
+  wheelParticles:
+    FRWheel: {fileID: 0}
+    FLWheel: {fileID: 0}
+    RRWheel: {fileID: 0}
+    RLWheel: {fileID: 0}
+    FRWheelTrail: {fileID: 0}
+    FLWheelTrail: {fileID: 0}
+    RRWheelTrail: {fileID: 0}
+    RLWheelTrail: {fileID: 0}
+  crashOverlay: {fileID: 0}
+  crashForceThreshold: 200
+  crashFadeDuration: 0.5
+  motorPower: 0
+  brakePower: 0
+  maxSpeed: 0
+  hpToRPMCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  engineInertia: 10000
+  isEngineRunning: 0
+  RPM: 0
+  redLine: 0
+  idleRPM: 0
+  speedText: {fileID: 0}
+  rpmText: {fileID: 0}
+  gearText: {fileID: 0}
+  rpmNeedle: {fileID: 0}
+  minNeedleRotation: 0
+  maxNeedleRotation: 0
+  currentGear: 0
+  gearRatios: []
+  differentialRatio: 0
+  increaseGearRPM: 0
+  decreaseGearRPM: 0
+  changeGearTime: 0.5
+  slipAngle: 0
+  steeringCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  smokePrefab: {fileID: 0}
+  tireTrail: {fileID: 0}
+  brakeMaterial: {fileID: 0}
+  brakingColor: {r: 0, g: 0, b: 0, a: 0}
+  brakeColorIntensity: 0
 --- !u!1 &5515681182119586389
 GameObject:
   m_ObjectHideFlags: 0

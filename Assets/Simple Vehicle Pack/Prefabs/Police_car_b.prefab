@@ -370,7 +370,7 @@ GameObject:
   - component: {fileID: -179030041647356881}
   m_Layer: 0
   m_Name: Police_car_b
-  m_TagString: Untagged
+  m_TagString: Vehicle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -457,6 +457,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCVehicleMover
   path: {fileID: 0}
   speed: 10
+  safeDistance: 12
+  vehicleLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
   continueStraightAfterLast: 1
   Spawner: {fileID: 0}
   PrefabKey: {fileID: 0}
