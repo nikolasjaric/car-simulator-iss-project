@@ -53077,6 +53077,27 @@ MonoBehaviour:
   rain: {fileID: 644025754}
   fogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   fogDensity: 0.02
+--- !u!114 &1207881505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207881487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aebc5bbd59c7e73479a7cf2d356438ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KinematicDriveMode
+  speedUIRoot: {fileID: 1447582077}
+  rb: {fileID: 1207881498}
+  automaticController: {fileID: 1207881494}
+  manualController: {fileID: 1207881488}
+  moveSpeed: 10
+  turnSpeed: 60
+  terrainMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &1207890700
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64686,6 +64707,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1646981259178978, guid: 0ae65270c30153049ab49eb3ebf070d6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1207881502}
+    - targetCorrespondingSourceObject: {fileID: 1646981259178978, guid: 0ae65270c30153049ab49eb3ebf070d6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1207881505}
   m_SourcePrefab: {fileID: 100100000, guid: 0ae65270c30153049ab49eb3ebf070d6, type: 3}
 --- !u!4 &1528385477 stripped
 Transform:
