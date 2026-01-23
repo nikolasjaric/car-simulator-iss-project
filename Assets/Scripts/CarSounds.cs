@@ -7,19 +7,30 @@ public class CarSounds : MonoBehaviour
     [SerializeField] private AudioSource blinkerAudioSource;
     [SerializeField] private AudioClip carHornSound;
     [SerializeField] private AudioClip carBlinkerSound;
+
+    
+    private string lastPressedKey = null;
     
     void Update()
     {
-        if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
+        var kb = Keyboard.current;
+        if (kb == null) return;
+
+        // Horn
+        if (kb.tKey.wasPressedThisFrame)
         {
             Honk();
         }
 
-        if (Keyboard.current != null && Keyboard.current.bKey.wasPressedThisFrame)
+       
+        string pressedKey = null;
+        if (kb.bKey.wasPressedThisFrame) pressedKey = "b";
+        else if (kb.qKey.wasPressedThisFrame) pressedKey = "q";
+        else if (kb.eKey.wasPressedThisFrame) pressedKey = "e";
+
+        if (pressedKey != null)
         {
-
-            ToggleBlinker();
-
+            ToggleBlinker(pressedKey);
         }
     }
 
@@ -27,100 +38,40 @@ public class CarSounds : MonoBehaviour
     {
         if (hornAudioSource == null || carHornSound == null)
         {
-            Debug.LogWarning("hornAudioSource or Horn sound not assigned!");
+            Debug.LogWarning("hornAudioSource or carHornSound not assigned!");
             return;
         }
 
         hornAudioSource.PlayOneShot(carHornSound);
     }
-    public void ToggleBlinker()
+
+    public void ToggleBlinker(string pressedKey)
     {
-    if (blinkerAudioSource == null || carBlinkerSound == null) {
-        Debug.LogWarning("hornAudioSource or Horn sound not assigned!");
-        return;
-    }
-    
-    if (blinkerAudioSource.isPlaying)
-    {
-        blinkerAudioSource.Stop();
-    }
-    else
-    {
-        blinkerAudioSource.clip = carBlinkerSound;
-        blinkerAudioSource.loop = true;
-        blinkerAudioSource.Play();
-    }
-}
-}
-
-
-
-/*using UnityEngine;
-using UnityEngine.InputSystem;
-
-public class CarSounds : MonoBehaviour
-{
-
-    public AudioClip carHornSound;
-
-    public void Honk()
-    {
-        AudioSource engineSource = GetComponent<AudioSource>();
-        engineSource.PlayOneShot(carHornSound);
-    }
-
-    void Update()
-{
-    if (Keyboard.current != null && Keyboard.current.hKey.wasPressedThisFrame)
-    {
-        Honk();
-    }
-}
-    
-    public AudioSource engineAudioSource;
-    public AudioClip engineIdleClip;
-    public AudioClip engineDrivingClip;
-
-    private bool isDriving = false;
-
-    void Start()
-    {
-        SetEngineIdle();
-    }
-
-    void Update()
-    {
-        // Check for Keyboard existence to prevent errors
-        if (Keyboard.current == null) return;
-
-        // Use the New Input System syntax
-        if (Keyboard.current.dKey.isPressed)
+        if (blinkerAudioSource == null || carBlinkerSound == null)
         {
-            if (!isDriving)
-            {
-                SetEngineDriving();
-            }
+            Debug.LogWarning("blinkerAudioSource or carBlinkerSound not assigned!");
+            return;
         }
-        else
+
+        
+        if (!blinkerAudioSource.isPlaying)
         {
-            if (isDriving)
-            {
-                SetEngineIdle();
-            }
+            blinkerAudioSource.clip = carBlinkerSound;
+            blinkerAudioSource.loop = true;
+            blinkerAudioSource.Play();
+            lastPressedKey = pressedKey;     
+            return;
         }
-    }
 
-    void SetEngineIdle()
-    {
-        engineAudioSource.clip = engineIdleClip;
-        engineAudioSource.Play();
-        isDriving = false;
-    }
+        
+        if (pressedKey == lastPressedKey)
+        {
+            blinkerAudioSource.Stop();
+            lastPressedKey = null;
+            return;
+        }
 
-    void SetEngineDriving()
-    {
-        engineAudioSource.clip = engineDrivingClip;
-        engineAudioSource.Play();
-        isDriving = true;
+        
+         lastPressedKey = pressedKey;
     }
-}*/
+}
