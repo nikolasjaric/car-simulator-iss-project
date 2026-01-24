@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: -3111055018281023198}
   - component: {fileID: 56024995746873967}
   - component: {fileID: 6384604827758596478}
+  - component: {fileID: 1105694062817923926}
   m_Layer: 0
   m_Name: Car_1
   m_TagString: Vehicle
@@ -230,12 +231,12 @@ Transform:
   - {fileID: 6541374032036277063}
   - {fileID: 5660405715473239666}
   - {fileID: 7871574716980609226}
-  - {fileID: 5996604508790847384}
   - {fileID: 916378313125964769}
+  - {fileID: 5996604508790847384}
   - {fileID: 3177570602877554179}
   - {fileID: 2409176650947900092}
-  - {fileID: 6280316884771565783}
   - {fileID: 559154708706862162}
+  - {fileID: 6280316884771565783}
   - {fileID: 6319121360152227388}
   - {fileID: 344565538994725230}
   m_Father: {fileID: 0}
@@ -652,6 +653,32 @@ MonoBehaviour:
   headlightsOnAtStart: 0
   brakeLightLeft: {fileID: 135783125298311830}
   brakeLightRight: {fileID: 1910413875174500612}
+  blinkerFrontLeft: {fileID: 6281238477498733677}
+  blinkerRearLeft: {fileID: 7051381212089337595}
+  blinkerFrontRight: {fileID: 5989578865592082398}
+  blinkerRearRight: {fileID: 304439210219491097}
+  blinkerInterval: 0.5
+--- !u!114 &1105694062817923926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646981259178978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecbe25544c2683243970bbb46ff644de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EngineAudio
+  engineSource: {fileID: 758521824470552452}
+  idleClip: {fileID: 8300000, guid: c502041826854664683f9914f63427b0, type: 3}
+  drivingClip: {fileID: 8300000, guid: 22cd46996da3b624bb08935264560d8c, type: 3}
+  reverseClip: {fileID: 8300000, guid: 75fa27e467267c74f91f1f6f4e74ff88, type: 3}
+  startupClip: {fileID: 8300000, guid: 56c7ad2bedbbf3a4cbb0173ec0e9d740, type: 3}
+  minPitch: 0.8
+  maxPitch: 1.5
+  minVolume: 0.1
+  maxVolume: 0.3
 --- !u!1 &1664593040851034
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,7 +1158,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.8862745, g: 0.6862745, b: 0.13725491, a: 1}
-  m_Intensity: 10
+  m_Intensity: 5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1439,7 +1466,7 @@ Transform:
   m_GameObject: {fileID: 4085936192777358777}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.369, y: 0.27, z: 1.125}
+  m_LocalPosition: {x: -0.369, y: 0.26999962, z: 1.1249992}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1456,7 +1483,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.8862745, g: 0.6862745, b: 0.13725491, a: 1}
-  m_Intensity: 10
+  m_Intensity: 5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2022,7 +2049,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.8862745, g: 0.6862745, b: 0.13725491, a: 1}
-  m_Intensity: 10
+  m_Intensity: 5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2347,7 +2374,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.8867924, g: 0.68471825, b: 0.13887496, a: 1}
-  m_Intensity: 10
+  m_Intensity: 5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
