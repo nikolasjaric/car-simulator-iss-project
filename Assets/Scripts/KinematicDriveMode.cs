@@ -20,7 +20,7 @@ public class KinematicDriveMode : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
+        if (Keyboard.current != null && Keyboard.current.oKey.wasPressedThisFrame)
         {
             if (isKinematicMode)
                 DisableKinematicMode();
