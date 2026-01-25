@@ -33953,7 +33953,14 @@ MonoBehaviour:
 
     T - horn
 
-    B - blinkers'
+    L - lights
+
+    B - 4-way
+    blinkers
+
+    Q - left blinkers
+
+    E - right blinkers'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -51788,8 +51795,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "C - switch camera                               \nESC - pause                             
-    \n1 - rain\n2 - fog\n3 - rain + fog\n0 - turn off rain/fog"
+  m_text: "WASD - drive\nC - switch camera\nO - physics mode                              
+    \nESC - pause                              \n1 - rain\n2 - fog\n3 - rain + fog\n0
+    - turn off rain/fog"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -52847,19 +52855,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecbe25544c2683243970bbb46ff644de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EngineAudio
-  idleSound: {fileID: 0}
-  runningSound: {fileID: 0}
-  reverseSound: {fileID: 0}
-  startingSound: {fileID: 0}
-  runningMaxVolume: 1
-  runningMaxPitch: 1.5
-  reverseMaxVolume: 1
-  reverseMaxPitch: 1.2
-  idleMaxVolume: 0.5
-  limiterSound: 1
-  limiterFrequency: 3
-  limiterEngage: 0.8
-  isEngineRunning: 0
+  engineSource: {fileID: 0}
+  idleClip: {fileID: 0}
+  drivingClip: {fileID: 0}
+  reverseClip: {fileID: 0}
+  startupClip: {fileID: 0}
+  minPitch: 0.8
+  maxPitch: 2
+  minVolume: 0.25
+  maxVolume: 0.7
 --- !u!114 &1207881491
 MonoBehaviour:
   m_ObjectHideFlags: 0

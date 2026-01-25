@@ -1685,7 +1685,14 @@ MonoBehaviour:
 
     T - horn
 
-    B - blinkers'
+    L - lights
+
+    B - 4-way
+    blinkers
+
+    Q - left blinkers
+
+    E - right blinkers'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2243,20 +2250,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Controls
-
-    C - switch camera (1st person - 3rd person)
-
-    ESC - pause
-
-    1
-    - rain
-
-    2 - fog
-
-    3 - rain + fog
-
-    0 - turn off rain/fog'
+  m_text: "Controls\nWASD - drive\nC - switch camera \nO - physics mode\nESC - pause\n1
+    - rain\n2 - fog\n3 - rain + fog\n0 - turn off rain/fog"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
